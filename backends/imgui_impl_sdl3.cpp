@@ -26,6 +26,7 @@
 //  2023-02-07: Forked "imgui_impl_sdl2" into "imgui_impl_sdl3". Removed version checks for old feature. Refer to imgui_impl_sdl2.cpp for older changelog.
 
 #include "imgui.h"
+#ifndef IMGUI_DISABLE
 #include "imgui_impl_sdl3.h"
 
 // Clang warnings with -Weverything
@@ -412,6 +413,11 @@ bool ImGui_ImplSDL3_InitForSDLRenderer(SDL_Window* window, SDL_Renderer* rendere
     return ImGui_ImplSDL3_Init(window, renderer);
 }
 
+bool ImGui_ImplSDL3_InitForOther(SDL_Window* window)
+{
+    return ImGui_ImplSDL3_Init(window, nullptr);
+}
+
 void ImGui_ImplSDL3_Shutdown()
 {
     ImGui_ImplSDL3_Data* bd = ImGui_ImplSDL3_GetBackendData();
@@ -576,7 +582,10 @@ void ImGui_ImplSDL3_NewFrame()
     ImGui_ImplSDL3_UpdateGamepads();
 }
 
+//-----------------------------------------------------------------------------
+
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
 
+#endif // #ifndef IMGUI_DISABLE
